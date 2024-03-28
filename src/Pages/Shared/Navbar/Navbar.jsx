@@ -8,7 +8,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
 
   const [cart] = useCarts();
-  
+
   const handleLogOut = () => [
     logOut()
       .then(() => {})
@@ -25,7 +25,7 @@ const Navbar = () => {
       <li>
         <Link to="/order/salad">Order Food</Link>
       </li>
-      <Link to="/">
+      <Link to="/dashboard/cart">
         <button className="btn">
           <FiShoppingCart />
           <div className="badge badge-secondary">+{cart.length}</div>
