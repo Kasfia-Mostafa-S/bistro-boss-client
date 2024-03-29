@@ -16,7 +16,8 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, googleSignIn } =
+    useContext(AuthContext);
 
   const onSubmit = (data) => {
     createUser(data.email, data.password).then((result) => {
@@ -34,7 +35,7 @@ const SignUp = () => {
               Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "User successfully",
+                title: "User successfully created",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -43,6 +44,19 @@ const SignUp = () => {
           });
         })
         .catch((error) => console.log(error));
+    });
+  };
+  const handleGoogleRegister = () => {
+    googleSignIn().then((result) => {
+      console.log(result.user);
+      const userInfo = {
+        email: result.user?.email,
+        name: result.user?.displayName,
+      };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        console.log(res.data);
+        navigate("/");
+      });
     });
   };
 
