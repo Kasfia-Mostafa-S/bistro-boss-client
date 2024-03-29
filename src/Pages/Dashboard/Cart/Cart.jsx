@@ -1,14 +1,14 @@
 import { FaTrashAlt } from "react-icons/fa";
-import useCarts from "../../../Hooks/useCarts";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useCarts from "../../../Hooks/useCarts";
 
 const Cart = () => {
-  const [cart,refetch] = useCarts();
+  const [cart, refetch] = useCarts();
+  const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
   const axiosSecure = useAxiosSecure();
-  const totalPrice = cart.reduce((total, item) => {
-    total + item.price;
-  }, 0);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -22,13 +22,10 @@ const Cart = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/carts/${id}`).then((res) => {
+          // console.log(res)
           if (res.data.deletedCount > 0) {
-            refetch()
-            Swal.fire({
-              title: "Deleted!",
-              text: "Item has been deleted.",
-              icon: "success",
-            });
+            refetch();
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
           }
         });
       }
@@ -36,21 +33,31 @@ const Cart = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-evenly mb-8">
-        <h2 className="text-4xl p-4">Items: {cart.length}</h2>
-        <h2 className="text-4xl p-4">Total Price: {totalPrice}</h2>
-        <button className="btn btn-primary m-4">Pay</button>
+    <div className="p-4">
+      <div className="flex justify-evenly mb-5">
+        <h2 className="text-6xl">Items: {cart.length}</h2>
+        <h2 className="text-6xl">Total Price: {totalPrice}</h2>
+        {cart.length ? (
+          <Link to="/dashboard/payment">
+            <button className="btn btn-primary">Pay</button>
+          </Link>
+        ) : (
+          <button disabled className="btn btn-primary">
+            Pay
+          </button>
+        )}
       </div>
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
+      <div className="overflow-x-auto rounded-t-lg">
+        <table className="table">
+          {/* head */}
+          <thead className="bg-slate-500 text-white">
             <tr>
               <th>#</th>
               <th>Image</th>
-              <th>name</th>
+              <th>Name</th>
               <th>Price</th>
               <th>Action</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +77,7 @@ const Cart = () => {
                   </div>
                 </td>
                 <td>{item.name}</td>
-                <td>${item.price}</td>
+                <td>$ {item.price}</td>
                 <th>
                   <button
                     onClick={() => handleDelete(item._id)}

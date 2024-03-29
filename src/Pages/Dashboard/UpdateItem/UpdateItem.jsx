@@ -1,22 +1,20 @@
 import { useLoaderData } from "react-router-dom";
-import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+const image_hosting_key = import.meta.env.VITE_image_hosting_key;
+const image_hosting_api = `https://api.imgbb.com/1/upload?expiration=600&key=${image_hosting_key}`;
 
 const UpdateItem = () => {
-  const {item, category,recipe, price,name,_id} = useLoaderData();
-
+  const { category, recipe, price, name, _id } = useLoaderData();
 
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
 
-  
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -47,14 +45,14 @@ const UpdateItem = () => {
     }
     console.log("With img url", res.data);
   };
- 
+
   return (
     <div>
       <SectionTitle
         heading="Update Item"
         subHeading="Refresh Info"
       ></SectionTitle>
-      <div>
+      <div className="p-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control w-full my-6 ">
             <label className="label">
@@ -108,7 +106,7 @@ const UpdateItem = () => {
               <span className="label-text">Recipe details</span>
             </label>
             <textarea
-             defaultValue={recipe}
+              defaultValue={recipe}
               {...register("recipe")}
               className="textarea textarea-bordered h-24"
               placeholder="Bio"
@@ -116,15 +114,12 @@ const UpdateItem = () => {
           </div>
           <div className=" w-full my-5">
             <input
-           
               {...register("image", { required: true })}
               type="file"
               className="file-input w-full max-w-xs"
             />
           </div>
-          <button className="btn">
-            Update menu item
-          </button>
+          <button className="btn">Update menu item</button>
         </form>
       </div>
     </div>
