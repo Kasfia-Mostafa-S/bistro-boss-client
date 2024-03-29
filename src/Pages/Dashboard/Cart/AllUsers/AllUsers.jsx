@@ -37,19 +37,18 @@ const AllUsers = () => {
   };
 
   const handleMakeAdmin = (user) => {
-    axiosSecure.patch(`/users/admin/${user._id}`)
-    .then(res=>{
-        console.log(res.data)
-        if(res.data.modifiedCount > 0){
-            Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: `${user.name} is admin now`,
-                showConfirmButton: false,
-                timer: 1500,
-              });
-        }
-    })
+    axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: `${user.name} is admin now`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
 
   return (
@@ -77,13 +76,16 @@ const AllUsers = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>
-                 {user.role === 'admin' ? "Admin" :
-                  <button
-                  onClick={() => handleMakeAdmin(user)}
-                  className="btn btn-ghost btn-xs"
-                >
-                  <FaUsers className="text-white bg-orange-500 p-2 text-4xl"></FaUsers>
-                </button>}
+                  {user.role === "admin" ? (
+                    "Admin"
+                  ) : (
+                    <button
+                      onClick={() => handleMakeAdmin(user)}
+                      className="btn btn-ghost btn-xs"
+                    >
+                      <FaUsers className="text-white bg-orange-500 p-2 text-4xl"></FaUsers>
+                    </button>
+                  )}
                 </td>
                 <td>
                   {" "}

@@ -12,11 +12,12 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCarts from "../Hooks/useCarts";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCarts();
 
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
 
   return (
     <div className="flex">
@@ -24,36 +25,37 @@ const Dashboard = () => {
         <ul className="menu p-4">
           {isAdmin ? (
             <>
-            <li>
-            <NavLink to="/dashboard/adminHome">
-              <FaHome></FaHome>
-              Admin Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/addItems">
-              <FaUtensils></FaUtensils>
-              Add Items
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/mangeItems">
-              <FaList></FaList>
-        Manage Items
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/allUsers">
-              <FaUser></FaUser>
-             All Users
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/manageBookings">
-              <FaBook></FaBook>
-             Manage Bookings
-            </NavLink>
-          </li></>
+              <li>
+                <NavLink to="/dashboard/adminHome">
+                  <FaHome></FaHome>
+                  Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/addItems">
+                  <FaUtensils></FaUtensils>
+                  Add Items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/mangeItems">
+                  <FaList></FaList>
+                  Manage Items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/allUsers">
+                  <FaUser></FaUser>
+                  All Users
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manageBookings">
+                  <FaBook></FaBook>
+                  Manage Bookings
+                </NavLink>
+              </li>
+            </>
           ) : (
             <>
               <li>
