@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -8,6 +8,9 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
+
+
 const Login = () => {
   const [disable, setDisable] = useState(true);
   const { signIn } = useContext(AuthContext);
@@ -105,12 +108,13 @@ const Login = () => {
               </div>
               <div className="form-control mt-6">
                 <input
-                  disabled={false}
+                  disabled={disable}
                   className="btn btn-primary"
                   type="submit"
                   value="Login"
                 />
               </div>
+              <SocialLogin></SocialLogin>
             </form>
             <p className="text-center">
               <small>
